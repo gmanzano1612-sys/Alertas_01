@@ -25,6 +25,7 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
   const mainMenu = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'modulo01', label: 'Modulo_01', icon: FileText },
+    { id: 'modulo02', label: 'Modulo_02', icon: FileText },
     { id: 'perfil', label: 'Mi Perfil', icon: User },
   ];
 

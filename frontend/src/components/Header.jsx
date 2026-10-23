@@ -25,9 +25,10 @@ function Header({ collapsed, setCollapsed, currentView, handleLogout, onNavigate
   }, []);
 
   const getViewTitle = () => {
-    if (currentView === 'modulo01') return 'Cuotas Compensatorias';
+    if (currentView === 'modulo01') return 'Modulo_01';
     if (currentView === 'perfil') return 'Mi Perfil';
     if (currentView === 'seguridad') return 'Seguridad';
+    if (currentView === 'modulo02') return 'Modulo_02';
     return 'Dashboard';
   };
 
