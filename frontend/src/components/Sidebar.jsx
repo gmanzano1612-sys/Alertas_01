@@ -1,32 +1,110 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Users, 
-  UserCheck, 
-  Key, 
   ShieldCheck, 
-  Settings, 
   LayoutDashboard, 
   FileText, 
   User, 
   ChevronRight,
-  Building2
+  ChevronDown,
+  Building2,
+  ChartLine,
+  BadgeQuestionMark,
+  SquareDimensions,
+  Ship,
+  Logs,
+  ClipboardMinus,
+  Search,
+  BookSearch,
+  FolderOpen
 } from 'lucide-react';
 
 function Sidebar({ collapsed, currentView, onNavigate }) {
-  // Lista estructurada de navegación
+  // Estado para controlar qué menús con subopciones están expandidos
+  // Por defecto abrimos 'Catalogos' como ejemplo, puedes cambiarlo o iniciarlo vacío {}
+  const [openSubmenus, setOpenSubmenus] = useState({
+    Catalogos: true, 
+  });
+
+  const toggleSubmenu = (menuId) => {
+    if (collapsed) return; // Si la barra está contraída no se despliega en acordeón clásico
+    setOpenSubmenus((prev) => ({
+      ...prev,
+      [menuId]: !prev[menuId],
+    }));
+  };
+
   const adminMenu = [
-    { id: 'usuarios', label: 'Usuarios', icon: Users },
-    { id: 'perfiles', label: 'Perfiles', icon: UserCheck },
-    { id: 'permisos', label: 'Permisos', icon: Key },
-    { id: 'seguridad', label: 'Seguridad', icon: ShieldCheck },
-    { id: 'ajustes', label: 'Ajustes', icon: Settings },
+    { id: 'usuarios', label: 'Perfil', icon: Users },
+    { id: 'perfiles', label: 'Cambio Contraseña', icon: ShieldCheck },
   ];
 
+  // Menú principal estructurado. Algunos elementos pueden incluir un arreglo 'subItems'
   const mainMenu = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'modulo01', label: 'Modulo_01', icon: FileText },
     { id: 'modulo02', label: 'Modulo_02', icon: FileText },
     { id: 'perfil', label: 'Mi Perfil', icon: User },
+    { 
+      id: 'Catalogos', label: 'Catalogos', icon: BookSearch,
+      subItems: [
+        { id: 'cat_usuarios', label: 'Usuarios' },
+        { id: 'cat_mercancia', label: 'Mercancia' },
+        { id: 'cat_tincidencia', label: 'Tipo de Incidencia' },
+        { id: 'cat_marcaafect', label: 'Marca Afectada' },
+        { id: 'cat_tincidencia', label: 'Submarca Afectada' },
+      ]
+    },
+    { 
+      id: 'Consultas', label: 'Consultas', icon: Search,
+      subItems: [
+        { id: 'con_general', label: 'Acceso' },
+        { id: 'con_historico', label: 'Consulta Alertas' },
+        { id: 'cat_c-gral-alt', label: 'Consulta Gral Alertas' },
+        { id: 'cat_c-dim-alt', label: 'Consulta Dinamica de Alertas' },
+      ]
+    },
+    { id: 'Reportes', label: 'Reportes', icon: ClipboardMinus,
+        subItems: [
+        { id: 'rep_alertas', label: 'Reporte de Alertas' },
+        { id: 'rep_maritimo', label: 'Reporte Marítimo' },
+        { id: 'rep cargaereo', label: 'Reporte Carga Aéreo' },
+        { id: 'rep_estalerta', label: 'Reporte Estado Alerta' },
+      ]
+     },
+    { id: 'Listas', label: 'Listas', icon: Logs,
+        subItems: [
+        { id: 'list_manifiesto', label: 'Lista de Manifiestos' },
+        { id: 'list_pasajeros', label: 'Lista de Pasajeros' },
+        { id: 'list_vehiculos', label: 'Lista de Vehiculos' },
+      ]
+     },
+    { id: 'Mmaritimo', label: 'Modelo Maritimo', icon: Ship,
+        subItems: [
+        { id: 'list_exalt', label: 'Lista de Elementos por Alertar' },
+        { id: 'list_elemalert', label: 'Lista de Elementos Alertados' },
+      ]
+     },
+    { id: 'opciones', label: 'Opciones', icon: SquareDimensions,
+        subItems: [
+        { id: 'dash_graf', label: 'Dashboard' },
+      ]
+     },
+    { id: 'Ayuda', label: 'Ayuda', icon: BadgeQuestionMark,
+        subItems: [
+        { id: 'Estrategias_sia', label: 'Estrategias SIA' },
+        { id: 'man_UsuarioCPED', label: 'Manual Usuario CPED' },
+        { id: 'manual_chatCPED', label: 'Manual Chat CPED' },
+        { id: 'manual_UsuarioAdu', label: 'Manual Usuario Aduanas' },
+      ]
+     },
+    { id: 'Analisis', label: 'Analisis', icon: ChartLine,
+        subItems: [
+        { id: 'res_alertas', label: 'Resumen Alertas' },
+        { id: 'rep_mensual', label: 'Reporte Mensual' },
+        { id: 'not_info', label: 'Nota Informativa' },
+      ]
+     },
   ];
 
   return (
@@ -43,7 +121,7 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
               <div className="w-6 h-6 rounded-md bg-[#691C32] text-white flex items-center justify-center font-bold text-[10px]">
                 SIA
               </div>
-              <span className="font-extrabold text-[#691C32] text-sm tracking-wide">FICHAS SIA</span>
+              <span className="font-extrabold text-[#691C32] text-sm tracking-wide">ALERTAS SIA</span>
             </div>
             <p className="text-[9px] text-amber-900/80 font-semibold tracking-tight uppercase mt-1 leading-tight">
               SISTEMA DE INCIDENCIAS Y ALERTAS 
@@ -95,11 +173,11 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
           </nav>
         </div>
 
-        {/* SECCIÓN MENÚ PRINCIPAL */}
+        {/* SECCIÓN FUNCIONES PRINCIPALES */}
         <div>
           {!collapsed ? (
             <p className="px-3 text-[10px] font-bold text-amber-800/90 uppercase tracking-widest mb-2">
-              MENÚ PRINCIPAL
+              FUNCIONES PRINCIPALES
             </p>
           ) : (
             <div className="h-px bg-gray-200 my-2 mx-2"></div>
@@ -109,29 +187,68 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
             {mainMenu.map((item) => {
               const Icon = item.icon;
               const isActive = currentView === item.id;
+              const hasSubItems = item.subItems && item.subItems.length > 0;
+              const isExpanded = openSubmenus[item.id];
 
               return (
-                <button
-                  key={item.id}
-                  onClick={() => onNavigate(item.id)}
-                  title={collapsed ? item.label : ''}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all duration-150 cursor-pointer ${
-                    isActive
-                      ? 'bg-amber-500/10 text-[#691C32] font-bold border border-amber-200/60 shadow-2xs'
-                      : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900 font-medium'
-                  } ${collapsed ? 'justify-center' : ''}`}
-                >
-                  <Icon 
-                    size={17} 
-                    className={isActive ? 'text-[#691C32]' : 'text-gray-500'} 
-                  />
-                  {!collapsed && (
-                    <span className="truncate flex-1 text-left">{item.label}</span>
+                <div key={item.id} className="space-y-1">
+                  {/* Botón Principal del Menú */}
+                  <button
+                    onClick={() => {
+                      if (hasSubItems && !collapsed) {
+                        toggleSubmenu(item.id);
+                      } else {
+                        onNavigate(item.id);
+                      }
+                    }}
+                    title={collapsed ? item.label : ''}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all duration-150 cursor-pointer ${
+                      isActive
+                        ? 'bg-amber-500/10 text-[#691C32] font-bold border border-amber-200/60 shadow-2xs'
+                        : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900 font-medium'
+                    } ${collapsed ? 'justify-center' : ''}`}
+                  >
+                    <Icon 
+                      size={17} 
+                      className={isActive ? 'text-[#691C32]' : 'text-gray-500'} 
+                    />
+                    {!collapsed && (
+                      <span className="truncate flex-1 text-left">{item.label}</span>
+                    )}
+                    
+                    {/* Indicadores de Submenú */}
+                    {!collapsed && hasSubItems && (
+                      <span className="text-gray-400">
+                        {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                      </span>
+                    )}
+                    {!collapsed && !hasSubItems && isActive && (
+                      <ChevronRight size={14} className="text-[#691C32]" />
+                    )}
+                  </button>
+
+                  {/* Renderizado de Submenús Desplegables */}
+                  {!collapsed && hasSubItems && isExpanded && (
+                    <div className="pl-9 pr-2 py-1 space-y-1 border-l-2 border-amber-200/60 ml-4 my-1">
+                      {item.subItems.map((sub) => {
+                        const isSubActive = currentView === sub.id;
+                        return (
+                          <button
+                            key={sub.id}
+                            onClick={() => onNavigate(sub.id)}
+                            className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all cursor-pointer ${
+                              isSubActive
+                                ? 'bg-[#691C32] text-white font-bold shadow-xs'
+                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                            }`}
+                          >
+                            {sub.label}
+                          </button>
+                        );
+                      })}
+                    </div>
                   )}
-                  {!collapsed && isActive && (
-                    <ChevronRight size={14} className="text-[#691C32]" />
-                  )}
-                </button>
+                </div>
               );
             })}
           </nav>

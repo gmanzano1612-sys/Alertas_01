@@ -56,7 +56,7 @@ function Header({ collapsed, setCollapsed, currentView, handleLogout, onNavigate
 
         <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
           <span className="hover:text-gray-700 transition cursor-pointer" onClick={() => onNavigate && onNavigate('dashboard')}>
-            FICHAS SIA
+            ALERTAS SIA
           </span>
           <span className="text-gray-300">/</span>
           <span className="text-gray-800 font-bold">{getViewTitle()}</span>
@@ -89,7 +89,7 @@ function Header({ collapsed, setCollapsed, currentView, handleLogout, onNavigate
             
             <div className="px-3.5 py-3 border-b border-gray-100">
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                CUENTA ACTIVA (POSTGRESQL)
+                CUENTA ACTIVA
               </span>
               <p className="text-xs font-bold text-gray-800 leading-snug">
                 {fullName}

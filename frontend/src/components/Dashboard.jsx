@@ -24,7 +24,7 @@ function Dashboard({ onNavigate }) {
       title: 'Modulo 02',
       description: 'Descripcion 02.',
       tag: 'ALERTAS',
-      icon: FileText,
+      icon: KeyRound,
     },
     // Aquí podrás agregar nuevos módulos fácilmente manteniendo el mismo diseño
   ];

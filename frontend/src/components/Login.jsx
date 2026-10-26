@@ -37,14 +37,16 @@ function Login({ setToken }) {
       {/* Tarjeta de Login (con z-index superior) */}
       <div className="relative z-10 w-full max-w-[380px] px-5 box-border">
         <div className="bg-white rounded-2xl p-[35px_30px_25px_30px] shadow-[0_20px_40px_rgba(0,0,0,0.08)] text-center">
-          <div className="flex justify-center items-center gap-2 mb-3.5">
-            <span className="font-bold text-[13px] text-[#691C32] tracking-wide">HACIENDA</span>
-            <span className="border-l border-gray-300 h-3 inline-block"></span>
-            <span className="font-bold text-[13px] text-[#691C32] tracking-wide">ADUANAS</span>
-          </div>
+          <div className="flex justify-center items-center gap-3 mb-4.5">
+            <img
+                src="logo.png"
+                alt="Logo Aduanas"
+                className="w-20 h-20 object-contain"
+            />
+            </div>
 
           <div className="inline-block bg-[#691C32] text-white text-[10px] font-bold px-3.5 py-0.5 rounded-xl tracking-wider mb-2.5">
-            FICHAS SIA
+            ALERTAS SIA
           </div>
 
           <p className="text-[11px] text-gray-600 mb-5">
