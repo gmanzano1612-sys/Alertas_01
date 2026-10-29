@@ -30,10 +30,6 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
     }));
   };
 
-  const adminMenu = [
-    { id: 'usuarios', label: 'Perfil', icon: Users },
-    { id: 'perfiles', label: 'Cambio Contraseña', icon: ShieldCheck },
-  ];
 
   const mainMenu = [
     { id: 'dashboard', label: 'HOME', icon: House },
@@ -130,41 +126,8 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
       </div>
 
       {/* MENÚ DE NAVEGACIÓN */}
-      <div className="flex-1 overflow-y-auto px-3 py-5 space-y-6 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto px-3 py-5 pb-20 space-y-6 scrollbar-thin">
         
-        {/* SECCIÓN ADMINISTRACIÓN */}
-        <div>
-          {!collapsed ? (
-            <p className="px-3 text-[10px] font-bold text-amber-300/90 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-              <span>ADMINISTRACIÓN</span>
-            </p>
-          ) : (
-            <div className="h-px bg-white/15 my-2 mx-2"></div>
-          )}
-
-          <nav className="space-y-1">
-            {adminMenu.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentView === item.id;
-              
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => onNavigate(item.id)}
-                  title={collapsed ? item.label : ''}
-                  className={`sia-sidebar-item ${
-                    isActive ? 'sia-sidebar-item-active' : ''
-                  } ${collapsed ? 'justify-center' : ''}`}
-                >
-                  <Icon size={17} className={isActive ? 'text-[#4E232E]' : 'text-amber-200/80'} />
-                  {!collapsed && (
-                    <span className="truncate flex-1 text-left">{item.label}</span>
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
 
         {/* SECCIÓN FUNCIONES PRINCIPALES */}
         <div>
