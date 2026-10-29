@@ -5,7 +5,6 @@ import {
   ChevronUp, 
   User, 
   Settings, 
-  ShieldCheck, 
   LogOut, 
   KeyRound 
 } from 'lucide-react';
@@ -29,15 +28,13 @@ function Header({ collapsed, setCollapsed, currentView, handleLogout, onNavigate
     if (currentView === 'perfil') return 'Mi Perfil';
     if (currentView === 'seguridad') return 'Seguridad';
     if (currentView === 'modulo02') return 'Modulo_02';
-    return 'Dashboard';
+    return 'House';
   };
 
-  // Extraer valores reales o mostrar carga si aún no responde la BD
   const username = userData?.username || 'Cargando...';
   const email = userData?.email || 'cargando@anam.gob.mx';
   const initial = username !== 'Cargando...' ? username.charAt(0).toUpperCase() : 'U';
   
-  // Nombre completo (si first_name y last_name están vacíos, muestra el username)
   const fullName = (userData?.first_name || userData?.last_name) 
     ? `${userData.first_name} ${userData.last_name}`.trim() 
     : username;
@@ -65,7 +62,7 @@ function Header({ collapsed, setCollapsed, currentView, handleLogout, onNavigate
 
       <div className="relative" ref={dropdownRef}>
         
-        {/* BOTÓN PÍLDORA DEL PERFIL CON DATOS DE POSTGRESQL */}
+        {/* BOTÓN PÍLDORA DEL PERFIL */}
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="flex items-center gap-2.5 bg-gray-50/90 border border-gray-200/80 hover:bg-gray-100/80 pl-1.5 pr-3 py-1 rounded-full transition cursor-pointer shadow-2xs group"
@@ -83,7 +80,7 @@ function Header({ collapsed, setCollapsed, currentView, handleLogout, onNavigate
           )}
         </button>
 
-        {/* MENÚ DESPLEGABLE CON CORREO Y USUARIO REAL */}
+        {/* MENÚ DESPLEGABLE */}
         {dropdownOpen && (
           <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl border border-gray-200/90 shadow-lg p-2 text-left z-50">
             

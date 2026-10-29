@@ -1,9 +1,21 @@
 import React from 'react';
+import { Building2 } from 'lucide-react';
 
 function Footer() {
   return (
-    <footer className="w-full bg-white/60 backdrop-blur-sm border-t border-gray-200 py-3 px-8 text-center text-xs text-gray-400">
-      © 2026 ALERTAS SIA - Todos los derechos reservados. 
+    <footer className="sia-footer">
+      <div className="sia-footer-brand">
+        <Building2 size={16} className="text-[#691C32] shrink-0" />
+        <div className="flex items-center gap-2">
+          <span className="sia-footer-title">ANAM</span>
+          <span className="text-gray-400">|</span>
+          <span className="sia-footer-subtitle">SISTEMA DE INCIDENCIAS Y ALERTAS (SIA)</span>
+        </div>
+      </div>
+      
+      <p className="sia-footer-copyright">
+        © 2026 Todos los derechos reservados
+      </p>
     </footer>
   );
 }

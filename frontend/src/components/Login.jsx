@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import BackgroundNodes from './BackgroundNodes'; // <-- 1. Importas el componente
+import { Eye, EyeOff } from "lucide-react";
+
 
 function Login({ setToken }) {
   const [username, setUsername] = useState('');
@@ -50,7 +52,7 @@ function Login({ setToken }) {
           </div>
 
           <p className="text-[11px] text-gray-600 mb-5">
-            Sistema de Administración de Reportes
+            Sistema de Incidencias y Alertas
           </p>
 
           {error && (
@@ -85,13 +87,20 @@ function Login({ setToken }) {
                   required
                   className="w-full p-2.5 pr-9 text-[13px] border border-gray-200 rounded-md bg-[#fcfcfc] outline-none box-border focus:ring-2 focus:ring-[#691C32]"
                 />
+                
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-gray-400 text-xs"
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                {showPassword ? (
+                    <EyeOff size={18} strokeWidth={1.8} />
+                ) : (
+                    <Eye size={18} strokeWidth={1.8} />
+                )}
                 </button>
+
               </div>
             </div>
 

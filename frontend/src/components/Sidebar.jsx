@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { 
   Users, 
   ShieldCheck, 
-  LayoutDashboard, 
   FileText, 
   User, 
   ChevronRight,
   ChevronDown,
-  Building2,
   ChartLine,
   BadgeQuestionMark,
   SquareDimensions,
@@ -16,18 +14,16 @@ import {
   ClipboardMinus,
   Search,
   BookSearch,
-  FolderOpen
+  House
 } from 'lucide-react';
 
 function Sidebar({ collapsed, currentView, onNavigate }) {
-  // Estado para controlar qué menús con subopciones están expandidos
-  // Por defecto abrimos 'Catalogos' como ejemplo, puedes cambiarlo o iniciarlo vacío {}
   const [openSubmenus, setOpenSubmenus] = useState({
     Catalogos: true, 
   });
 
   const toggleSubmenu = (menuId) => {
-    if (collapsed) return; // Si la barra está contraída no se despliega en acordeón clásico
+    if (collapsed) return; 
     setOpenSubmenus((prev) => ({
       ...prev,
       [menuId]: !prev[menuId],
@@ -39,9 +35,8 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
     { id: 'perfiles', label: 'Cambio Contraseña', icon: ShieldCheck },
   ];
 
-  // Menú principal estructurado. Algunos elementos pueden incluir un arreglo 'subItems'
   const mainMenu = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'HOME', icon: House },
     { id: 'modulo01', label: 'Modulo_01', icon: FileText },
     { id: 'modulo02', label: 'Modulo_02', icon: FileText },
     { id: 'perfil', label: 'Mi Perfil', icon: User },
@@ -52,7 +47,7 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
         { id: 'cat_mercancia', label: 'Mercancia' },
         { id: 'cat_tincidencia', label: 'Tipo de Incidencia' },
         { id: 'cat_marcaafect', label: 'Marca Afectada' },
-        { id: 'cat_tincidencia', label: 'Submarca Afectada' },
+        { id: 'cat_submarcafec', label: 'Submarca Afectada' },
       ]
     },
     { 
@@ -109,26 +104,26 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
 
   return (
     <aside
-      className={`bg-white/95 backdrop-blur-md border-r border-gray-200/80 flex flex-col h-screen transition-all duration-300 z-20 shrink-0 shadow-xs ${
+      className={`sia-sidebar ${
         collapsed ? 'w-20' : 'w-64'
       }`}
     >
       {/* LOGO INSTITUCIONAL SUPERIOR */}
-      <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="p-4 border-b border-white/10 flex items-center justify-between">
         {!collapsed ? (
-          <div className="bg-gradient-to-br from-amber-50/80 to-amber-100/40 border border-amber-200/70 rounded-xl p-3 w-full shadow-2xs">
+          <div className="sia-sidebar-logo-box">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-md bg-[#691C32] text-white flex items-center justify-center font-bold text-[10px]">
+              <div className="w-6 h-6 rounded-md bg-white text-[#4E232E] flex items-center justify-center font-bold text-[10px]">
                 SIA
               </div>
-              <span className="font-extrabold text-[#691C32] text-sm tracking-wide">ALERTAS SIA</span>
+              <span className="font-extrabold text-white text-sm tracking-wide">ALERTAS SIA</span>
             </div>
-            <p className="text-[9px] text-amber-900/80 font-semibold tracking-tight uppercase mt-1 leading-tight">
+            <p className="text-[9px] text-amber-200/90 font-semibold tracking-tight uppercase mt-1 leading-tight">
               SISTEMA DE INCIDENCIAS Y ALERTAS 
             </p>
           </div>
         ) : (
-          <div className="mx-auto bg-[#691C32] text-white rounded-xl w-10 h-10 flex items-center justify-center font-bold text-xs shadow-xs border border-[#521527]">
+          <div className="mx-auto bg-white text-[#4E232E] rounded-xl w-10 h-10 flex items-center justify-center font-bold text-xs shadow-xs">
             SIA
           </div>
         )}
@@ -140,11 +135,11 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
         {/* SECCIÓN ADMINISTRACIÓN */}
         <div>
           {!collapsed ? (
-            <p className="px-3 text-[10px] font-bold text-amber-800/90 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+            <p className="px-3 text-[10px] font-bold text-amber-300/90 uppercase tracking-widest mb-2 flex items-center gap-1.5">
               <span>ADMINISTRACIÓN</span>
             </p>
           ) : (
-            <div className="h-px bg-gray-200 my-2 mx-2"></div>
+            <div className="h-px bg-white/15 my-2 mx-2"></div>
           )}
 
           <nav className="space-y-1">
@@ -157,13 +152,11 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
                   title={collapsed ? item.label : ''}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer ${
-                    isActive
-                      ? 'bg-[#691C32] text-white font-bold shadow-xs'
-                      : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900'
+                  className={`sia-sidebar-item ${
+                    isActive ? 'sia-sidebar-item-active' : ''
                   } ${collapsed ? 'justify-center' : ''}`}
                 >
-                  <Icon size={17} className={isActive ? 'text-white' : 'text-gray-500'} />
+                  <Icon size={17} className={isActive ? 'text-[#4E232E]' : 'text-amber-200/80'} />
                   {!collapsed && (
                     <span className="truncate flex-1 text-left">{item.label}</span>
                   )}
@@ -176,11 +169,11 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
         {/* SECCIÓN FUNCIONES PRINCIPALES */}
         <div>
           {!collapsed ? (
-            <p className="px-3 text-[10px] font-bold text-amber-800/90 uppercase tracking-widest mb-2">
-              FUNCIONES PRINCIPALES
+            <p className="px-3 text-[10px] font-bold text-amber-300/90 uppercase tracking-widest mb-2">
+              FUNCIONES DEL SISTEMA
             </p>
           ) : (
-            <div className="h-px bg-gray-200 my-2 mx-2"></div>
+            <div className="h-px bg-white/15 my-2 mx-2"></div>
           )}
 
           <nav className="space-y-1">
@@ -192,7 +185,6 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
 
               return (
                 <div key={item.id} className="space-y-1">
-                  {/* Botón Principal del Menú */}
                   <button
                     onClick={() => {
                       if (hasSubItems && !collapsed) {
@@ -202,44 +194,40 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
                       }
                     }}
                     title={collapsed ? item.label : ''}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all duration-150 cursor-pointer ${
+                    className={`sia-sidebar-item ${
                       isActive
-                        ? 'bg-amber-500/10 text-[#691C32] font-bold border border-amber-200/60 shadow-2xs'
-                        : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900 font-medium'
+                        ? 'bg-white/15 text-white font-bold border border-white/20 shadow-2xs'
+                        : ''
                     } ${collapsed ? 'justify-center' : ''}`}
                   >
                     <Icon 
                       size={17} 
-                      className={isActive ? 'text-[#691C32]' : 'text-gray-500'} 
+                      className={isActive ? 'text-amber-300' : 'text-amber-200/80'} 
                     />
                     {!collapsed && (
                       <span className="truncate flex-1 text-left">{item.label}</span>
                     )}
                     
-                    {/* Indicadores de Submenú */}
                     {!collapsed && hasSubItems && (
-                      <span className="text-gray-400">
+                      <span className="text-white/60">
                         {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                       </span>
                     )}
                     {!collapsed && !hasSubItems && isActive && (
-                      <ChevronRight size={14} className="text-[#691C32]" />
+                      <ChevronRight size={14} className="text-amber-300" />
                     )}
                   </button>
 
-                  {/* Renderizado de Submenús Desplegables */}
                   {!collapsed && hasSubItems && isExpanded && (
-                    <div className="pl-9 pr-2 py-1 space-y-1 border-l-2 border-amber-200/60 ml-4 my-1">
+                    <div className="pl-9 pr-2 py-1 space-y-1 border-l-2 border-white/20 ml-4 my-1">
                       {item.subItems.map((sub) => {
                         const isSubActive = currentView === sub.id;
                         return (
                           <button
                             key={sub.id}
                             onClick={() => onNavigate(sub.id)}
-                            className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all cursor-pointer ${
-                              isSubActive
-                                ? 'bg-[#691C32] text-white font-bold shadow-xs'
-                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                            className={`sia-sidebar-subitem ${
+                              isSubActive ? 'sia-sidebar-subitem-active' : ''
                             }`}
                           >
                             {sub.label}
@@ -254,23 +242,6 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
           </nav>
         </div>
 
-      </div>
-
-      {/* PIE DE LA SIDEBAR */}
-      <div className="p-3 border-t border-gray-100 bg-gray-50/50">
-        {!collapsed ? (
-          <div className="flex items-center gap-2.5 px-2 py-1.5">
-            <Building2 size={16} className="text-gray-400 shrink-0" />
-            <div className="overflow-hidden">
-              <p className="text-[10px] font-bold text-gray-700 truncate">ANAM</p>
-              <p className="text-[9px] text-gray-400 truncate">© 2026 Todos los derechos</p>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-center text-gray-400 py-1" title="Hacienda | Aduanas 2026">
-            <Building2 size={16} />
-          </div>
-        )}
       </div>
 
     </aside>
