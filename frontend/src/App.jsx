@@ -1,14 +1,17 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import { ShieldAlert, Clock, LogOut, RefreshCw } from 'lucide-react';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import Modulo01 from './components/Modulo01';
-import Modulo02 from './components/Modulo02';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import BackgroundNodes from './components/BackgroundNodes';
+import Login from './componentes/Login';
+import Dashboard from './componentes/Dashboard';
+import Modulo01 from './componentes/Modulo01';
+import Modulo02 from './componentes/Modulo02';
+import Sidebar from './componentes/Sidebar';
+import Header from './componentes/Header';
+import Footer from './componentes/Footer';
+import Alt_perfil_usuario from './componentes/Alt_perfil_usuario';
+import Alt_alertas_det from './componentes/Alt_alertas_det';
+import Atl_nueva_alerta from './componentes/Atl_nueva_alerta';
+import BackgroundNodes from './componentes/BackgroundNodes';
 import './index.css';
 
 function App() {
@@ -16,6 +19,9 @@ function App() {
   const [collapsed, setCollapsed] = useState(false);
   const [userData, setUserData] = useState(null);
   const [showInactivityModal, setShowInactivityModal] = useState(false);
+  
+  // Estado para controlar la apertura del modal de nueva alerta sin redireccionar
+  const [isNuevaAlertaOpen, setIsNuevaAlertaOpen] = useState(false);
 
   const warningTimerRef = useRef(null);
   const logoutTimerRef = useRef(null);
@@ -35,23 +41,20 @@ function App() {
     setShowInactivityModal(false);
     window.history.pushState({}, '', '/');
     setCurrentView('dashboard');
-    setToken(''); // Al colocar el token al final, forzamos el renderizado inmediato del Login
+    setToken(''); 
   }, []);
 
   const resetInactivityTimers = useCallback(() => {
     if (warningTimerRef.current) clearTimeout(warningTimerRef.current);
     if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
 
-    // --- CONFIGURACIÓN DE TIEMPOS (10s totales para pruebas: 8s advertencia, 2s cierre) ---
     const TOTAL_INACTIVITY_TIME = 20 * 60 * 1000; 
     const WARNING_TIME = TOTAL_INACTIVITY_TIME * 0.8; 
     const REMAINING_TIME = TOTAL_INACTIVITY_TIME - WARNING_TIME; 
 
-    // 1. Temporizador para mostrar la advertencia al 80%
     warningTimerRef.current = setTimeout(() => {
       setShowInactivityModal(true);
 
-      // 2. Temporizador independiente para cerrar sesión si se agota el 20% restante
       logoutTimerRef.current = setTimeout(() => {
         handleLogout();
       }, REMAINING_TIME);
@@ -59,14 +62,12 @@ function App() {
     }, WARNING_TIME);
   }, [handleLogout]);
 
-  // Escuchar eventos de interacción del usuario
   useEffect(() => {
     if (!token) return;
 
     const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'];
     
     const handleUserActivity = () => {
-      // Si el modal ya está abierto, ignoramos el movimiento para que el usuario decida manualmente o expire solo
       if (!showInactivityModal) {
         resetInactivityTimers();
       }
@@ -87,14 +88,12 @@ function App() {
     };
   }, [token, showInactivityModal, resetInactivityTimers]);
 
-  // Botón para extender la sesión desde el modal
   const extendSession = () => {
     if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
     setShowInactivityModal(false);
     resetInactivityTimers();
   };
 
-  // Cargar datos del usuario desde PostgreSQL
   useEffect(() => {
     if (token) {
       axios.get('http://127.0.0.1:8000/api/dashboard/', {
@@ -112,7 +111,12 @@ function App() {
     }
   }, [token, handleLogout]);
 
+  // Interceptor para abrir el modal si la vista seleccionada es 'nalerta'
   const navigateTo = (view) => {
+    if (view === 'nalerta') {
+      setIsNuevaAlertaOpen(true);
+      return;
+    }
     const path = view === 'dashboard' ? '/' : `/${view}`;
     window.history.pushState({}, '', path);
     setCurrentView(view);
@@ -175,8 +179,15 @@ function App() {
             />
           )}
 
-          {currentView === 'modulo02' && (
-            <Modulo02 
+          {currentView === 'perfil' && (
+            <Alt_perfil_usuario 
+              token={token}
+              onBack={() => navigateTo('dashboard')} 
+            />
+          )}
+
+          {currentView === 'detalles' && (
+            <Alt_alertas_det 
               token={token}
               onBack={() => navigateTo('dashboard')} 
             />
@@ -187,6 +198,17 @@ function App() {
 
       {/* 3. FOOTER FIJO DE LADO A LADO POR ENCIMA DE TODO */}
       <Footer collapsed={collapsed} />
+
+      {/* VENTANA EMERGENTE (MODAL) DE NUEVA ALERTA */}
+      <Atl_nueva_alerta 
+        isOpen={isNuevaAlertaOpen}
+        token={token}
+        onClose={() => setIsNuevaAlertaOpen(false)}
+        onSaveSuccess={() => {
+          setIsNuevaAlertaOpen(false);
+          // Opcional: recargar datos o mostrar notificación de éxito
+        }}
+      />
 
       {/* MODAL DE INACTIVIDAD */}
       {showInactivityModal && (

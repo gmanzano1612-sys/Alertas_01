@@ -34,12 +34,12 @@ function Sidebar({ collapsed, currentView, onNavigate }) {
   const mainMenu = [
     { id: 'dashboard', label: 'HOME', icon: House },
     { id: 'modulo01', label: 'Modulo_01', icon: FileText },
-    { id: 'modulo02', label: 'Modulo_02', icon: FileText },
+    { id: 'nalerta', label: 'Nueva Alerta', icon: FileText },
     { id: 'perfil', label: 'Mi Perfil', icon: User },
     { 
       id: 'Catalogos', label: 'Catalogos', icon: BookSearch,
       subItems: [
-        { id: 'cat_usuarios', label: 'Usuarios' },
+        { id: 'detalles', label: 'Usuarios' },
         { id: 'cat_mercancia', label: 'Mercancia' },
         { id: 'cat_tincidencia', label: 'Tipo de Incidencia' },
         { id: 'cat_marcaafect', label: 'Marca Afectada' },
